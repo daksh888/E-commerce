@@ -17,19 +17,22 @@ class Vendor(models.Model):
         return self.email
     
 class Category(models.Model):
-    user = models.OneToOneField(Vendor, on_delete=models.CASCADE)
+    user = models.ForeignKey(Vendor, on_delete=models.CASCADE)
     category_name = models.CharField(max_length=100)
     REQUIRED_FIELDS = ["category_name"]
 
     def __str__(self):
         return self.category_name
 
+
 class Product(models.Model):
-    user = models.OneToOneField(Vendor, on_delete=models.CASCADE)
-    category = models.OneToOneField(Category,on_delete=models.CASCADE)
+    user = models.ForeignKey(Vendor, on_delete=models.CASCADE)
+    category = models.CharField(max_length=100,null=False)
     name  = models.CharField(max_length=100,verbose_name="Product Name")
+    in_stock = models.BooleanField(default=True)
+    price = models.FloatField(default=0)
     detail = models.CharField(max_length=255)
-    image =  models.ImageField(upload_to='product-image/')
+    image =  models.ImageField(upload_to='product-image/', blank=True,null=True)
 
     def __str__(self):
         return self.name

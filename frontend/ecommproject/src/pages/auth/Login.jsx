@@ -8,6 +8,7 @@ import '../auth/AuthStyle.scss';
 const Login = () => {
     const { handleLogin, isLoading } = useLoginAuth();
     const username = useSelector((state) => state.login.user);
+    const token = useSelector((state) => state.login.accessToken);
     const isAuth = useSelector(isAuthenticated);
     const navigate = useNavigate();
 
@@ -38,13 +39,22 @@ const Login = () => {
         try {
             const responseData = await handleLogin(formData);
             console.log("login response",responseData)
+            
+            
+            console.log("isauth",isAuth)
+            console.log("token at jsx",token)
+
             if (responseData) {
-                navigate('/home');  // Navigate to the home page on successful login
+                // navigate('/home');  // Navigate to the home page on successful login
             }
         } catch (err) {
             setError(err.message || 'An error occurred during login.');
         }
     };
+    if (token) {
+        console.log("token at if",token)
+        navigate('/home');
+    }
 
     return (
         <>
@@ -121,6 +131,8 @@ const Login = () => {
                                     </button>
                                     <p className="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="/"
                                         className="link-danger">Register</a></p>
+                                       
+                                        <p>{token}</p>
                                 </div>
                                 {error && <div className="alert alert-danger mt-3">{error}</div>}
                             </form>

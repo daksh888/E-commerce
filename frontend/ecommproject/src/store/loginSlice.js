@@ -11,13 +11,15 @@ export const loginSlice = createSlice({
   initialState,
   reducers: {
     setLoginData: (state, action) => {
+      console.log("setLoginData called!!")
       state.user = action.payload.email;
       state.accessToken = action.payload.access_token;
       state.refreshToken = action.payload.refresh_token;
+      console.log("at slice", state.accessToken)
     },
     isAuthenticated: (state, action) => {
       if (state.accessToken) {
-        return state.user;
+        return state.user,state.accessToken
       }
     },
     logout: (state, action) => {
